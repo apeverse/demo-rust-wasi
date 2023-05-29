@@ -3,11 +3,6 @@ use std::io::{self, Read, Write};
 
 fn main() -> io::Result<()> {
 
-    let message = "Hello, WASI!\n";
-
-    // 向屏幕输出消息：Hello, WASI
-    io::stdout().write_all(message.as_bytes())?;
-
     // 打开要读取的文件
     let mut file = File::open("input.txt")?;
 
@@ -17,15 +12,19 @@ fn main() -> io::Result<()> {
     // 读取文件内容到缓冲区
     file.read_to_end(&mut buffer)?;
 
-    // 输出文件内容
+    // 向屏幕输出文件内容
     io::stdout().write_all(&buffer)?;
+
+    let message = "Hello, WASI!\n";
+
+    // 向屏幕输出消息：Hello, WASI
+    io::stdout().write_all(message.as_bytes())?;
 
     // 创建一个新文件来写入数据
     let mut output_file = File::create("output.txt")?;
 
     // 写入数据到文件
-    let data = "Hello, WASI!";
-    output_file.write_all(data.as_bytes())?;
+    output_file.write_all(message.as_bytes())?;
 
     Ok(())
 }
